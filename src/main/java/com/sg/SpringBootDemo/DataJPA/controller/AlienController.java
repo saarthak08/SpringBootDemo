@@ -37,6 +37,7 @@ public class AlienController {
         catch (Exception e){
             e.printStackTrace();
         }
+        System.out.println(alienRepo.findByTechSorted("Java"));
         modelAndView.addObject("alien",alien);
         modelAndView.setViewName("alien");
         return modelAndView;
