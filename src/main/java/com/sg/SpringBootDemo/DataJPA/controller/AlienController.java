@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class AlienController {
@@ -19,19 +19,27 @@ public class AlienController {
     @Autowired
     AlienRepo alienRepo;
 
-    @RequestMapping("/view")
-    public String home(){
+    @RequestMapping("/")
+    public String homepage(){
         return "home";
     }
 
 
-    @RequestMapping("/addAlien")
-    public String addAlien(Alien alien){
-        alienRepo.save(alien);
-        return "home";
+    @GetMapping(value = "/addAlien")
+    public String addAlien(Alien alien,RedirectAttributes redirectAttributes){
+        try {
+            alienRepo.save(alien);
+            redirectAttributes.addFlashAttribute("mess", "Added Successfully");
+            return "redirect:/";
+        }
+        catch(Exception e){
+            redirectAttributes.addFlashAttribute("mess", "Failed");
+            return "redirect:/";
+        }
     }
 
-    @RequestMapping("/getAlien")
+    @GetMapping(value = "/getAlien")
+    @ResponseBody
     public ModelAndView getAlien(@RequestParam("id") int id, ModelAndView modelAndView){
         Alien alien=null;
         try {
@@ -46,37 +54,57 @@ public class AlienController {
         return modelAndView;
     }
 
-    @RequestMapping("/aliensSorted/{type}")
+    @RequestMapping(value = "/getAlienXML",produces = {"application/xml","text/xml"})
     @ResponseBody
-    public List<Alien> getJavaAliensSorted(@PathVariable("type") String type){
+    public Alien getAlienXML(@RequestParam("id") int id){
+        Alien alien=null;
+        try {
+            alien = alienRepo.findAlienById(id);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+      return alien;
+    }
+
+    @RequestMapping(value = "/aliensSorted",produces = "application/json")
+    @ResponseBody
+    public List<Alien> getJavaAliensSorted(@RequestParam("type") String type){
         return alienRepo.findByTechSorted(type);
     }
 
-    @RequestMapping("/aliens")
+    @RequestMapping(value = "/aliens",produces = "application/json")
     @ResponseBody
-    public String getAliens(){
-        return alienRepo.findAll().toString();
+    public List<Alien> getAliens(){
+        return alienRepo.findAll();
     }
 
 
-    @RequestMapping(value = "/alien/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = "/alien/{id}",method = RequestMethod.GET,produces = "application/json")
     @ResponseBody
-    public String getAliens(@PathVariable("id") int id){
-        return alienRepo.findById(id).toString();
+    public Optional<Alien> getAliens(@PathVariable("id") int id){
+        return alienRepo.findById(id);
     }
 
 
-    @RequestMapping(value = "/updateAlien",method = RequestMethod.POST)
+    @PostMapping("/updateAlien")
     public ModelAndView updateAlien(Alien alien, RedirectAttributes redirectAttributes, HttpServletResponse response){
         Alien alien2=alienRepo.findAlienById(alien.getId());
         if(alien2!=null){
             alienRepo.save(alien);
             redirectAttributes.addFlashAttribute("message", "Successfully updated..");
-            return new ModelAndView("redirect:/view");
+            return new ModelAndView("redirect:/");
         }
         else{
             redirectAttributes.addFlashAttribute("message","Error! Data not found!");
-            return new ModelAndView("redirect:/view");
+            return new ModelAndView("redirect:/");
         }
+    }
+
+    @PostMapping(value = "/postAlien",consumes = {"application/json"})
+    @ResponseBody
+    public Alien addAlienJSON(@RequestBody Alien alien){
+        alienRepo.save(alien);
+        return alien;
     }
 }
