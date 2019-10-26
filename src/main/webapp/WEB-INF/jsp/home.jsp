@@ -51,9 +51,11 @@
         Tech <input type="text" name="type"> <br><br>
         <input type="submit"> <br>
     </form>
+
     <br><br><br>
     <hr>
-    <a class="button" href="aliens">Get All Aliens</a>
+    <button onclick="location.href='aliens'" type="button">Get All Aliens</button>
+
 
 </body>
 </html>

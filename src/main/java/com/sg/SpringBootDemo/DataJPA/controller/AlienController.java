@@ -107,4 +107,18 @@ public class AlienController {
         alienRepo.save(alien);
         return alien;
     }
+
+
+    @DeleteMapping("/deleteAlien/{id}")
+    public String deleteAlien(@PathVariable("id") int id,RedirectAttributes redirectAttributes){
+        try {
+            alienRepo.deleteById(id);
+            redirectAttributes.addFlashAttribute("delete", "Successfully deleted..");
+            return "redirect:/";
+        }
+        catch (Exception e){
+            redirectAttributes.addFlashAttribute("delete", "Error!");
+            return "redirect:/";
+        }
+    }
 }
