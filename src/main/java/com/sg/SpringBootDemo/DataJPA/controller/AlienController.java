@@ -3,6 +3,8 @@ package com.sg.SpringBootDemo.DataJPA.controller;
 
 import com.sg.SpringBootDemo.DataJPA.DAO.AlienRepo;
 import com.sg.SpringBootDemo.DataJPA.model.Alien;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@RequestMapping("/ac")
 public class AlienController {
 
     @Autowired
@@ -26,6 +29,7 @@ public class AlienController {
 
 
     @GetMapping(value = "/addAlien")
+    @ApiOperation(value = "Add Aliens to the database",notes = "Please provide proper details.",response = String.class,consumes ="Alien Model Class")
     public String addAlien(Alien alien,RedirectAttributes redirectAttributes){
         try {
             alienRepo.save(alien);
@@ -40,7 +44,7 @@ public class AlienController {
 
     @GetMapping(value = "/getAlien")
     @ResponseBody
-    public ModelAndView getAlien(@RequestParam("id") int id, ModelAndView modelAndView){
+    public ModelAndView getAlien(@ApiParam(value = "Provide a proper integer id",required = true) @RequestParam("id") int id, ModelAndView modelAndView){
         Alien alien=null;
         try {
             alien = alienRepo.findAlienById(id);
