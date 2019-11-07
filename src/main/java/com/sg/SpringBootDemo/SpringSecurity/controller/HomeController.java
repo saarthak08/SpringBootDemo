@@ -1,16 +1,15 @@
-package com.sg.SpringBootDemo.SpringSecurity;
+package com.sg.SpringBootDemo.SpringSecurity.controller;
 
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/security")
 public class HomeController {
 
     @RequestMapping("/")
     public String home(){
-        return "home-sec";
+        return "login";
     }
 
     @RequestMapping("/sec")
@@ -18,10 +17,9 @@ public class HomeController {
         return "sec";
     }
 
-
-    @RequestMapping("/login")
-    public String loginPage(){
-        return "login";
+    @RequestMapping("/home-sec")
+    public String homesec(){
+        return "home-sec";
     }
 
     @RequestMapping("/logout-success")

@@ -13,20 +13,23 @@
 <body>
     <h1>Login</h1>
     ${SPRING_SECURITY_LAST_EXCEPTION.message}
-    <form action="login" method="POST">
+    <form action="/login/auth" method="POST">
         <table>
             <tr>
-                <td>User:</td>
+                <td>Email:</td>
                 <td><input type="text" name="username"></td>
             </tr>
             <tr>
                 <td>Password::</td>
-                <td><input type="text" name="password"></td>
+                <td><input type="password" name="password"></td>
             </tr>
             <tr>
                 <td><input type="submit" name="submit"></td>
             </tr>
         </table>
     </form>
+    <br>
+    <br>
+    <a href="/register/">Don't have an account? Signup here!</a>
 </body>
 </html>

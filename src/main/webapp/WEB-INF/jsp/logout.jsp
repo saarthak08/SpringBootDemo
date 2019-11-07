@@ -11,7 +11,7 @@
     <title>Logout</title>
 </head>
 <body>
-    Logout home <br>
+    Logout Successful... <br>
     <a href="/">home</a>
 
 </body>
