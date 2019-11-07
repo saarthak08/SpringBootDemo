@@ -13,6 +13,12 @@ public class HomeController {
         return "home-sec";
     }
 
+    @RequestMapping("/sec")
+    public String second(){
+        return "sec";
+    }
+
+
     @RequestMapping("/login")
     public String loginPage(){
         return "login";

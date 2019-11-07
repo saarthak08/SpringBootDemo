@@ -46,11 +46,11 @@
 			<artifactId>spring-integration-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-	<!--	<dependency>
+		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.18</version>
-		</dependency> -->
+		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
